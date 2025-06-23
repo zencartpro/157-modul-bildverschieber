@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>Dokumentation – Bildverschieber Tool</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      padding: 40px;
+      background-color: #f9f9f9;
+    }
+    h1, h2, h3 {
+      color: #2c3e50;
+    }
+    code {
+      background-color: #eef;
+      padding: 2px 4px;
+      border-radius: 3px;
+      font-family: monospace;
+    }
+    pre {
+      background-color: #eee;
+      padding: 10px;
+      border-radius: 4px;
+      overflow-x: auto;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+    }
+    table, th, td {
+      border: 1px solid #ccc;
+    }
+    th, td {
+      padding: 8px;
+      text-align: left;
+    }
+    .note {
+      background-color: #fffae6;
+      border-left: 4px solid #f1c40f;
+      padding: 10px;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>📦 Dokumentation: Bildverschieber Tool (Zen Cart Admin-Modul) by harry.g</h1>
+
+  <h2>🔧 Zweck des Tools</h2>
+  <p>
+    Das <strong>Bildverschieber-Tool</strong> dient dazu, Produktbilder auf Basis ihrer Kategorie(n)
+    automatisch in bestimmte Unterordner innerhalb des <code>images/</code>-Verzeichnisses zu verschieben.
+  </p>
+  <ul>
+    <li>Verschiebt Haupt- und Zusatzbilder in Zielordner</li>
+    <li>Aktualisiert den Bildpfad in der Datenbank</li>
+    <li>Erstellt eine CSV-Logdatei</li>
+    <li>Bietet eine Undo-Funktion zur Rückabwicklung</li>
+  </ul>
+
+  <h2>📁 Verzeichnisstruktur</h2>
+  <table>
+    <tr><th>Pfad</th><th>Beschreibung</th></tr>
+    <tr><td><code>admin/bildverschieber.php</code></td><td>Hauptskript mit Oberfläche & Logik</td></tr>
+    <tr><td><code>admin/includes/filenames.php</code></td><td>Definition: <code>FILENAME_BILD_VERSCHIEBER</code></td></tr>
+    <tr><td><code>admin/includes/extra_datafiles/bildverschieber.php</code></td><td>Alternative Konstante für Menü: <code>FILENAME_BILDVERSCHIEBER</code></td></tr>
+    <tr><td><code>admin/includes/functions/extra_functions/reg_bildverschieber.php</code></td><td>Registriert Tool im Admin-Menü</td></tr>
+    <tr><td><code>logs/bildverschieber/bild_log.csv</code></td><td>CSV-Protokoll der Aktionen</td></tr>
+    <tr><td><code>images/</code></td><td>Basisverzeichnis für Produktbilder</td></tr>
+  </table>
+
+  <h2>🖥️ Funktionsweise (bildverschieber.php)</h2>
+  <h3>1. Formularanzeige</h3>
+  <p>Dropdown-Auswahl für Kategorien, Zielordnerauswahl und Buttons für Aktion und Undo.</p>
+
+  <h3>2. Bildverschiebung</h3>
+  <ul>
+    <li>Alle Produkte der gewählten Kategorie (inkl. Unterkategorien) werden verarbeitet</li>
+    <li>Haupt- und Zusatzbilder werden verschoben</li>
+    <li>DB-Feld <code>products_image</code> wird aktualisiert</li>
+    <li>CSV-Log wird geschrieben</li>
+  </ul>
+
+  <h3>3. Undo-Funktion</h3>
+  <ul>
+    <li>Liest <code>bild_log.csv</code></li>
+    <li>Verschiebt Bilder zurück</li>
+    <li>Setzt den DB-Bildpfad zurück</li>
+    <li>Zeigt Erfolg/Fehlschlag je Datei</li>
+  </ul>
+
+  <h2>📂 Menüeintrag im Adminbereich</h2>
+  <p>Erfolgt automatisch durch folgende Dateien:</p>
+
+  <h3><code>reg_bildverschieber.php</code></h3>
+  <pre><code>zen_register_admin_page(
+  'toolsBildverschieber',
+  'BOX_TOOLS_BILDVERSCHIEBER',
+  'FILENAME_BILDVERSCHIEBER',
+  '', 'tools', 'Y', 160
+);</code></pre>
+
+  <h3><code>bildverschieber.php (extra_datafiles)</code></h3>
+  <pre><code>define('FILENAME_BILDVERSCHIEBER', 'bildverschieber');</code></pre>
+
+  <h3><code>filenames.php</code></h3>
+  <pre><code>define('FILENAME_BILD_VERSCHIEBER', 'bildverschieber.php');</code></pre>
+
+  <div class="note">
+    💡 <strong>Hinweis:</strong> Zwei unterschiedliche Konstanten werden verwendet:<br>
+    <code>FILENAME_BILD_VERSCHIEBER</code> im Code für Links, <br>
+    <code>FILENAME_BILDVERSCHIEBER</code> für die Menüintegration.
+  </div>
+
+  <h2>🧪 Hinweise & Best Practices</h2>
+  <ul>
+    <li><strong>Nur ein Log pro Aktion:</strong> Log wird überschrieben</li>
+    <li><strong>Dateien als UTF-8 ohne BOM</strong> speichern</li>
+    <li><strong>Verzeichnisse beschreibbar</strong> machen: <code>/images</code>, <code>/logs</code></li>
+    <li><strong>Undo-Link:</strong> <code>index.php?cmd=bildverschieber&amp;undo=1</code></li>
+  </ul>
+
+  <h2>✅ Fazit</h2>
+  <p>
+    Das Tool ermöglicht eine strukturierte Organisation von Produktbildern auf Basis der Kategorisierung.
+    Die Undo-Funktion bietet Sicherheit bei Fehlern, und die Zen Cart Integration erfolgt auf offiziellem Weg.
+  </p>
+
+</body>
+</html>
