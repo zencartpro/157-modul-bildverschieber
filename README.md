@@ -30,7 +30,7 @@ Im Ordner NEUE DATEIEN dieses Downloads den Ordner DEINADMIN auf den Namen Ihres
 Danach die Dateien/Ordner in der vorgegebenen Struktur ins Shopverzeichnis hochladen, dabei werden keine bestehenden Dateien überschrieben.
 Geben Sie dem Unterordner logs/bildverschieber chmod 777.
 
-4)
+3)
 In der Zen Cart Administration auf irgendeinen Menüpunkt clicken, danach ist unter Tools der neue Menüpunkt Bildverschieber vorhanden.
 Sehr einfach zu bedienen, die Funktionsweise ist in der Dokumentation.htm beschrieben
 
